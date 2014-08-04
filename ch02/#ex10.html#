@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      var deferred = $.Deferred();
+      var promise = deferred.promise();
+      
+      function succeed(value){
+	  return $.Deferred(function(d){
+	      d.resolve(value);
+	  }).promise();
+      }
+
+    </script>
+  </body>
+</html>

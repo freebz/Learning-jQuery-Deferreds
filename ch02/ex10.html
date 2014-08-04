@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+      var promises = [
+	  $.ajax('http://google.com'),
+	  $.ajax('http://yahoo.com'),
+	  $.ajax('http://www.nytimes.com')
+      ];
+
+      // NOTE: DON'T DO THIS!
+      /*
+      $.when(promises).then(function(results){
+	  console.log('All URLs fetched.');
+      });
+      */
+
+      $.when.apply($, promises).then(
+	  function(result1, result2, result3){
+	      console.log('All URLs fetched.');
+	  }
+      );
+
+    </script>
+  </body>
+</html>
