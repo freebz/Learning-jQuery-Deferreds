@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  </head>
+  <body>
+
+    <div id="label-1">Display Label 1</div>
+    <div id="label-2">Display Label 2</div>
+
+    <script type="text/javascript">
+
+      /*
+      var promise = $('#label-1').animate({ opacity: 0.25 }, 100).promise()
+      .then(function(){
+	  return $('#label-2').animate({ opacity: 0.75 }, 200).promise();
+      });
+      */
+
+      var promise = synchronously([
+	  [ $('#label-1').animate, $('#label-1'), { opacity: 0.25 }, 100 ],
+	  [ $('#label-2').animate, $('#label-2'), { opacity: 0.75 }, 200 ]
+      ]);
+
+      function synchronously(tasks){
+	  var i, task, func, context,
+	  promise = $.Deferred().resolve().promise(),
+	  makeRunner = function(func, context, args){
+	      return function(){
+		  return func.apply(context, args).promise();
+	      };
+	  };
+	  for (i = 0; i < tasks.length; i++){
+	      task = tasks[i];
+	      func = task.shift();
+	      context = task.shift();
+	      promise = promise.then(makeRunner(func, context, task));
+	  }
+	  return promise;
+      }
+
+    </script>
+  </body>
+</html>
